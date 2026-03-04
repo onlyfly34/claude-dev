@@ -6,6 +6,8 @@ My portable Claude Code configuration — skills, settings, and quick deployment
 
 ```
 claude-dev/
+├── deploy.sh                  # Deploy script (Linux/macOS)
+├── deploy.ps1                 # Deploy script (Windows)
 ├── .claude/
 │   └── settings.json          # Claude Code global settings
 └── claude-skills/
@@ -23,35 +25,17 @@ claude-dev/
 ### Linux / macOS
 
 ```bash
-git clone <repo-url> ~/claude-dev
+git clone git@github.com:onlyfly34/claude-dev.git ~/claude-dev
 cd ~/claude-dev
-
-# Settings
-cp .claude/settings.json ~/.claude/settings.json
-
-# Skills
-for skill in claude-skills/**/*.md; do
-  name=$(basename "$skill" .md)
-  mkdir -p ~/.claude/skills/$name
-  cp "$skill" ~/.claude/skills/$name/SKILL.md
-done
+bash deploy.sh
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-git clone <repo-url> $env:USERPROFILE\claude-dev
+git clone git@github.com:onlyfly34/claude-dev.git $env:USERPROFILE\claude-dev
 cd $env:USERPROFILE\claude-dev
-
-# Settings
-Copy-Item .claude\settings.json $env:USERPROFILE\.claude\settings.json -Force
-
-# Skills
-Get-ChildItem claude-skills -Filter *.md -Recurse | ForEach-Object {
-    $name = $_.BaseName
-    New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\skills\$name" | Out-Null
-    Copy-Item $_.FullName "$env:USERPROFILE\.claude\skills\$name\SKILL.md" -Force
-}
+.\deploy.ps1
 ```
 
 ## Settings Explained
